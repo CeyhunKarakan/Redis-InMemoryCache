@@ -1,1 +1,1 @@
-# Redis-InMemoryCache
+# Redis-InMemoryCache with .NET 7
