@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InMemoryApp.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace RedisTest.Controllers
@@ -29,6 +30,15 @@ namespace RedisTest.Controllers
                 _memoryCache.Set<string>("time", DateTime.Now.ToString(), options);
             }
 
+            Product product = new Product{
+                Id = 1,
+                Name = "Apple Watch",
+                Price = 200
+            };
+
+            _memoryCache.Set<Product>("product:1", product);
+
+
             return View();
         }
 
@@ -36,9 +46,10 @@ namespace RedisTest.Controllers
         {
             _memoryCache.TryGetValue("time", out string timeCache);
             _memoryCache.TryGetValue("callback", out string callback);
+            ViewBag.Time = timeCache;
             ViewBag.callback = callback;
-            ViewBag.Time = timeCache;   
 
+            ViewBag.product = _memoryCache.Get<Product>("product:1");
             return View();
         }
     }
